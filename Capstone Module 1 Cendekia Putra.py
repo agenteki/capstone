@@ -101,9 +101,6 @@ def masukan_produk():
         if item[0] == sku:
             print("SKU sudah tersedia!")
             return
-    # size = int(input("Masukan ukuran (ml): "))
-    # harga = int(input("Masukan harga: "))
-    # stock = int(input("Masukan stok: "))  
 
     while True:
         try:
@@ -146,29 +143,58 @@ def perbarui_stok_harga():
     tampilan_stok()
     print()
 
-    produk = input("Masukkan jenis produk yang ingin diperbarui: ").title()
-    if produk not in gudang_sabun:
-        print("Produk tidak ditemukan!")
-        return
+    while True:
+        try:
+            produk = input("Masukkan jenis produk yang ingin diperbarui: ").strip().title()
+            if produk not in gudang_sabun:
+                raise ValueError("Produk tidak ditemukan! Silakan coba lagi.")
+            break
+        except ValueError as e:
+            print(f"Error: {e}")
     
     tampilan_stok_berdasarkan_produk(produk)
     
-    varian = input("Masukkan nama varian yang ingin diperbarui: ").title()
-    if varian not in gudang_sabun[produk]:
-        print("Varian tidak ditemukan!")
-        return
+    while True:
+        try:
+            varian = input("Masukkan nama varian yang ingin diperbarui: ").strip().title()
+            if varian not in gudang_sabun[produk]:
+                raise ValueError("Varian tidak ditemukan! Silakan coba lagi.")
+            break
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    print(f"Varian {varian} dari produk {produk} siap diperbarui.")
+
     
     tampilan_stok_berdasarkan_varian(produk, varian)
     
+    print("\nCARA PENULISKAN SKU:\nSKU.AB.CD.000 = SKUABCD000 \nAB --> Inisial Produk \nCD--> Inisial Varian \n000--> Jumlah Ml" )
+    print()
     skuinput = input("Masukkan Kode SKU yang ingin diperbarui: ").upper()
     for i, (sku, size, harga, stok) in enumerate(gudang_sabun[produk][varian]):
         if sku == skuinput:
-            new_harga = int(input("Masukkan harga baru: "))
-            new_stok = int(input("Masukkan stok baru: "))
-            gudang_sabun[produk][varian][i] = (sku, size, new_harga, new_stok)
-            print("Harga dan stok berhasil diperbarui!")
-            tampilan_stok_berdasarkan_varian(produk, varian)
-            return
+                while True:
+                    try:
+                        new_harga = int(input("Masukkan harga baru: "))
+                        if new_harga < 0:
+                            raise ValueError("Harga harus angka dan tidak boleh 0!")
+                        break
+                    except ValueError:
+                        print(f"Error!!!Silakan masukkan angka yang valid.")
+
+                while True:
+                    try:
+                        new_stok = int(input("Masukkan stok baru: "))
+                        if new_stok < 0:
+                            raise ValueError("Stok harus angka dan tidak boleh 0!")
+                        break
+                    except ValueError:
+                        print(f"Error!!! Silakan masukkan angka yang valid.")
+
+                gudang_sabun[produk][varian][i] = (sku, size, new_harga, new_stok)
+                print("Harga dan stok berhasil diperbarui!")
+                tampilan_stok_berdasarkan_varian(produk, varian)
+                return
         
     print("SKU tidak ditemukan!")
 
