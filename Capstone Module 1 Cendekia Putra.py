@@ -67,11 +67,10 @@ def sub_menu():
     pilih_sub = input("Pilih opsi [1/2]: ")
     
     if pilih_sub == "1":
-        clear_terminal()
         print("\n.::::::::::TABLE STOK GUDANG MENSCARE::::::::::.")
         tampilan_stok()
     elif pilih_sub == "2":
-        clear_terminal()
+        tampilan_tabel_nama()
         jenis = input("Masukkan jenis produk yang ingin ditampilkan: ").title()
         if jenis in gudang_sabun:
             tampilan_stok_berdasarkan_produk(jenis)
@@ -79,6 +78,16 @@ def sub_menu():
             print("Produk tidak ditemukan!")
     else:
         print("Pilihan tidak valid!")
+
+#Menampilkan hanya nama produk dan varian
+def tampilan_tabel_nama():
+    data = []
+    for jenisproduk, varian in gudang_sabun.items():
+        for x_variant in varian.keys():
+            data.append([jenisproduk, x_variant])
+    
+    headers = ["Jenis Produk", "Varian"]
+    print(tabulate(data, headers=headers, tablefmt="grid"))
 
 #Menampilkan table berdasarkan jenis varian
 def tampilan_stok_berdasarkan_varian(produk, varian):
