@@ -4,7 +4,7 @@
 
 
 # Capstone Project 1: 
-# Aplikasi gudang produk menscare
+# Aplikasi Gudang Produk Menscare
 
 ## Penjelasan Aplikasi
 
