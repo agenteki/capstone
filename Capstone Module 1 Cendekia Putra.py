@@ -60,6 +60,26 @@ def tampilan_stok_berdasarkan_produk(jenis):
             headertabel = ["SKU", "Ukuran (ml)", "Harga", "Stok"]
             print(tabulate(produk, headers=headertabel, tablefmt="grid"))
 
+#Menampilkan Sub Menu
+def sub_menu():
+    print("\n1. Tampilkan Semua Stok")
+    print("2. Tampilkan Berdasarkan Jenis Produk")
+    pilih_sub = input("Pilih opsi [1/2]: ")
+    
+    if pilih_sub == "1":
+        clear_terminal()
+        print("\n.::::::::::TABLE STOK GUDANG MENSCARE::::::::::.")
+        tampilan_stok()
+    elif pilih_sub == "2":
+        clear_terminal()
+        jenis = input("Masukkan jenis produk yang ingin ditampilkan: ").title()
+        if jenis in gudang_sabun:
+            tampilan_stok_berdasarkan_produk(jenis)
+        else:
+            print("Produk tidak ditemukan!")
+    else:
+        print("Pilihan tidak valid!")
+
 #Menampilkan table berdasarkan jenis varian
 def tampilan_stok_berdasarkan_varian(produk, varian):
     if produk in gudang_sabun and varian in gudang_sabun[produk]:
@@ -88,7 +108,7 @@ def masukan_produk():
             print("Jenis Produk tidak ditemukan!")
             return
     
-    varian_input = input("Masukkan nama varian baru: ").title()
+    varian_input = input("Masukkan nama varian baru atau varian yang sudah tersedia: ").title()
     if varian_input in gudang_sabun[produk_input]:
         print("Varian sudah ada! Masukkan detail SKU baru.")
         tampilan_stok_berdasarkan_varian(produk_input, varian_input)
@@ -251,7 +271,7 @@ def menu():
         if pilih == "1":
             clear_terminal()
             print("\n.::::::::::TABLE STOK GUDANG MENSCARE::::::::::.")
-            tampilan_stok()
+            sub_menu()
         elif pilih == "2":
             clear_terminal()
             masukan_produk()
